@@ -79,4 +79,10 @@ export function AuthProvider({ children }) {
     return user;
   };
 
-  
+  const logout = () => {
+    localStorage.removeItem('token');
+
+    setUser(null);
+  };
+
+ 
