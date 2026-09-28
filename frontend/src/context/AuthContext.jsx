@@ -50,4 +50,20 @@ export function AuthProvider({ children }) {
     return user;
   };
 
+  const login = async (email, password) => {
+    const response = await api.post(
+      '/auth/login',
+      {
+        email: email,
+        password: password
+      }
+    );
+
+    const data = response.data;
+
+    const user = saveSession(data);
+
+    return user;
+  };
+
   
