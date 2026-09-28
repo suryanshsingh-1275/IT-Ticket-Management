@@ -66,4 +66,17 @@ export function AuthProvider({ children }) {
     return user;
   };
 
+  const register = async (form) => {
+    const response = await api.post(
+      '/auth/register',
+      form
+    );
+
+    const data = response.data;
+
+    const user = saveSession(data);
+
+    return user;
+  };
+
   
