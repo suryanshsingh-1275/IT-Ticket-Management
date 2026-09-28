@@ -11,6 +11,20 @@ export default function Register() {
 
   const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
+  const onSubmit = async (e) => {
+ e.preventDefault();
+ setError('');
+ setBusy(true);
+ try {
+     await register(form);
+      navigate('/tickets');
+     } catch (err) {
+    setError(errorMessage(err));
+    } finally {
+     setBusy(false);
+    }
+};
+
 
 
   return (
