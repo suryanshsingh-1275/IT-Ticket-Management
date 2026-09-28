@@ -2,3 +2,5 @@ export const CATEGORIES = ['Hardware', 'Software', 'Network', 'Access', 'Email',
 
 export const PRIORITIES = ['Low', 'Medium', 'High'];
 
+export const STATUSES = ['Open', 'In Progress', 'Resolved', 'Closed'];
+
