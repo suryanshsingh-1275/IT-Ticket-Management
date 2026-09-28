@@ -9,6 +9,9 @@ export default function Register() {
 
   if (user) return <Navigate to="/" replace />;
 
+  const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+
+
 
   return (
     <div className="auth-wrap panel p-4">
