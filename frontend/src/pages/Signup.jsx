@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-
+import { useAuth } from '../context/AuthContext';
+import { errorMessage } from '../api';
 
 export default function Register() {
+  const { user, register } = useAuth();
   const navigate = useNavigate();
   const [form, setForm] = useState({ name: '', email: '', password: '', department: '', phone: '' });
+  const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
 
   if (user) return <Navigate to="/" replace />;
@@ -12,64 +15,46 @@ export default function Register() {
   const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const onSubmit = async (e) => {
- e.preventDefault();
- setError('');
- setBusy(true);
- try {
-     await register(form);
+    e.preventDefault();
+    setError('');
+    setBusy(true);
+    try {
+      await register(form);
       navigate('/tickets');
-     } catch (err) {
-    setError(errorMessage(err));
+    } catch (err) {
+      setError(errorMessage(err));
     } finally {
-     setBusy(false);
+      setBusy(false);
     }
-};
-
-
+  };
 
   return (
     <div className="auth-wrap panel p-4">
       <h3 className="mb-1">Create account</h3>
       <p className="text-secondary">Register to raise support tickets and track their status.</p>
-     
+      {error && <div className="alert alert-danger py-2">{error}</div>}
       <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label className="form-label">Full name</label>
-          <input name="name"
-           className="form-control"
-            value={form.name}
-             onChange={onChange} required autoFocus />
+          <input name="name" className="form-control" value={form.name} onChange={onChange} required autoFocus />
         </div>
         <div className="mb-3">
           <label className="form-label">Work email</label>
-          <input type="email"
-           name="email"
-           className="form-control" 
-           value={form.email} 
-           onChange={onChange} required />
+          <input type="email" name="email" className="form-control" value={form.email} onChange={onChange} required />
         </div>
         <div className="row">
           <div className="col-sm-6 mb-3">
             <label className="form-label">Department</label>
-            <input name="department"
-             className="form-control"
-              value={form.department} 
-              onChange={onChange} />
+            <input name="department" className="form-control" value={form.department} onChange={onChange} />
           </div>
           <div className="col-sm-6 mb-3">
             <label className="form-label">Phone</label>
-            <input name="phone" 
-            className="form-control"
-             value={form.phone} 
-             onChange={onChange} />
+            <input name="phone" className="form-control" value={form.phone} onChange={onChange} />
           </div>
         </div>
         <div className="mb-3">
           <label className="form-label">Password</label>
-          <input type="password" name="password" className="form-control" 
-          value={form.password}
-           onChange={onChange}
-            minLength={6} required />
+          <input type="password" name="password" className="form-control" value={form.password} onChange={onChange} minLength={6} required />
           <div className="form-text">At least 6 characters.</div>
         </div>
         <button className="btn btn-primary w-100" disabled={busy}>{busy ? 'Creating account...' : 'Create account'}</button>
