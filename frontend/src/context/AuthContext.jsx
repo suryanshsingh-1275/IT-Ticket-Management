@@ -41,3 +41,13 @@ export function AuthProvider({ children }) {
       });
 
   }, []);
+
+ const saveSession = ({ token, user }) => {
+    localStorage.setItem('token', token);
+
+    setUser(user);
+
+    return user;
+  };
+
+  
