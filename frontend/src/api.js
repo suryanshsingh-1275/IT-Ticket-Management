@@ -8,3 +8,7 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+export const errorMessage = (err) =>
+  err.response?.data?.message || 'Could not reach the server. Is the API running?';
+
+export default api;
