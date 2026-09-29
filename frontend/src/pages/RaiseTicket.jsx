@@ -9,6 +9,10 @@ export default function RaiseTicket() {
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
 
+  const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+
+
+
 return (
     <div className="mx-auto" style={{ maxWidth: 640 }}>
       <h3 className="mb-1">Raise a ticket</h3>
