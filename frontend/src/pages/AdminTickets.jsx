@@ -47,4 +47,72 @@ export default function AdminTickets() {
     }
   };
 
-  
+  return (
+    <>
+      <h3 className="mb-3">All tickets</h3>
+
+      <div className="row g-2 mb-3">
+        <div className="col-lg-5">
+          <input name="search" className="form-control" placeholder="Search title, description, employee name or email" value={filters.search} onChange={setFilter} />
+        </div>
+        <div className="col-4 col-lg-2">
+          <select name="status" className="form-select" value={filters.status} onChange={setFilter}>
+            <option value="">All statuses</option>
+            {STATUSES.map((s) => <option key={s}>{s}</option>)}
+          </select>
+        </div>
+        <div className="col-4 col-lg-2">
+          <select name="priority" className="form-select" value={filters.priority} onChange={setFilter}>
+            <option value="">All priorities</option>
+            {PRIORITIES.map((p) => <option key={p}>{p}</option>)}
+          </select>
+        </div>
+        <div className="col-4 col-lg-3">
+          <select name="category" className="form-select" value={filters.category} onChange={setFilter}>
+            <option value="">All categories</option>
+            {CATEGORIES.map((c) => <option key={c}>{c}</option>)}
+          </select>
+        </div>
+      </div>
+
+      {error && <div className="alert alert-danger">{error}</div>}
+
+      {loading ? (
+        <div className="text-center py-5"><div className="spinner-border text-secondary" /></div>
+      ) : tickets.length === 0 ? (
+        <div className="panel p-5 text-center">No tickets match these filters.</div>
+      ) : (
+        <div className="panel table-responsive">
+          <table className="table table-hover mb-0">
+            <thead>
+              <tr><th>ID</th><th>Title</th><th>Raised by</th><th>Category</th><th>Priority</th><th style={{ minWidth: 150 }}>Status</th><th>Date</th><th /></tr>
+            </thead>
+            <tbody>
+              {tickets.map((t) => (
+                <tr key={t._id}>
+                  <td className="id-tag">#{shortId(t)}</td>
+                  <td><span className="clickable" onClick={() => setSelected(t)}>{t.title}</span></td>
+                  <td>
+                    {t.createdBy?.name || 'Deleted user'}
+                    {t.createdBy?.department && <div className="small text-secondary">{t.createdBy.department}</div>}
+                  </td>
+                  <td>{t.category}</td>
+                  <td><PriorityText priority={t.priority} /></td>
+                  <td>
+                    <select className="form-select form-select-sm" value={t.status} onChange={(e) => updateStatus(t, e.target.value)}>
+                      {STATUSES.map((s) => <option key={s}>{s}</option>)}
+                    </select>
+                  </td>
+                  <td>{fmtDate(t.createdAt)}</td>
+                  <td className="text-end"><button className="btn btn-sm btn-outline-danger" onClick={() => remove(t)}>Delete</button></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      <TicketModal ticket={selected} onClose={() => setSelected(null)} />
+    </>
+  );
+}
