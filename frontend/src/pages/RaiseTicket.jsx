@@ -11,6 +11,19 @@ export default function RaiseTicket() {
 
   const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
+   const onSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setBusy(true);
+    try {
+      await api.post('/tickets', form);
+      navigate('/tickets');
+    } catch (err) {
+      setError(errorMessage(err));
+      setBusy(false);
+    }
+  };
+
 
 
 return (
