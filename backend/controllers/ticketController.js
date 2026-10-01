@@ -205,3 +205,142 @@ const getStats = async (req, res, next) => {
 };
 
 
+// Admin: get all tickets
+const getAllTickets = async (req, res, next) => {
+  try {
+    const filter = await buildFilter(req, {
+      mine: false
+    });
+
+    const tickets = await Ticket.find(filter)
+      .sort('-createdAt')
+      .populate(
+        'createdBy',
+        'name email department'
+      );
+
+    res.json({ tickets });
+
+  } catch (err) {
+    next(err);
+  }
+};
+
+
+// Load a single ticket
+const loadTicket = async (req, res, next) => {
+  try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      return res.status(404).json({
+        message: 'Ticket not found'
+      });
+    }
+
+    const ticket = await Ticket.findById(
+      req.params.id
+    ).populate(
+      'createdBy',
+      'name email department'
+    );
+
+    if (!ticket) {
+      return res.status(404).json({
+        message: 'Ticket not found'
+      });
+    }
+
+    req.ticket = ticket;
+
+    next();
+
+  } catch (err) {
+    next(err);
+  }
+};
+
+
+// Get single ticket
+const getTicket = (req, res) => {
+  const isOwner =
+    String(req.ticket.createdBy._id) ===
+    String(req.user._id);
+
+  if (!isOwner && req.user.role !== 'admin') {
+    return res.status(403).json({
+      message: 'You cannot view this ticket'
+    });
+  }
+
+  res.json({
+    ticket: req.ticket
+  });
+};
+
+
+// Admin: update status
+const updateStatus = async (req, res, next) => {
+  try {
+    const { status } = req.body;
+
+    if (!STATUSES.includes(status)) {
+      return res.status(400).json({
+        message: `Status must be one of: ${STATUSES.join(', ')}`
+      });
+    }
+
+    const ticket = req.ticket;
+
+    const changed =
+      ticket.status !== status;
+
+    ticket.status = status;
+
+    await ticket.save();
+
+    if (changed) {
+      sendEmail({
+        to: ticket.createdBy.email,
+        subject: `Ticket #${shortId(ticket)} is now ${status}`,
+        text: `Hi ${ticket.createdBy.name},
+
+Your ticket "${ticket.title}" was updated to: ${status}.
+
+- Nettech Help Desk`
+      });
+    }
+
+    res.json({ ticket });
+
+  } catch (err) {
+    next(err);
+  }
+};
+
+
+// Admin: delete ticket
+const deleteTicket = async (req, res, next) => {
+  try {
+    await req.ticket.deleteOne();
+
+    res.json({
+      message: 'Ticket deleted'
+    });
+
+  } catch (err) {
+    next(err);
+  }
+};
+
+
+module.exports = {
+  createTicket,
+  getMyTickets,
+  getStats,
+  getAllTickets,
+  loadTicket,
+  getTicket,
+  updateStatus,
+  deleteTicket
+};
+
+
