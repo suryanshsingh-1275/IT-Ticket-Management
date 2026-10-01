@@ -9,83 +9,96 @@ export default function MyTickets() {
   const [tickets, setTickets] = useState([]);
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [busy, setBusy] = useState(true);
   const [error, setError] = useState('');
-  const [selected, setSelected] = useState(null);
+  const [selectedTicket, setSelectedTicket] = useState(null);
 
+  // Reload the list whenever the search text or status filter changes.
+  // The small delay (debounce) avoids calling the API on every keystroke.
   useEffect(() => {
-    const timer = setTimeout(async () => {
-      try {
-        const res = await api.get('/tickets/mine', { params: { search, status } });
-        setTickets(res.data.tickets);
-        setError('');
-      } catch (err) {
-        setError(errorMessage(err));
-      } finally {
-        setLoading(false);
-      }
+    const timer = setTimeout(() => {
+      loadTickets();
     }, 250);
     return () => clearTimeout(timer);
   }, [search, status]);
 
-  const filtering = search || status;
+  async function loadTickets() {
+    setBusy(true);
+    try {
+      const res = await api.get('/tickets/mine', { params: { search, status } });
+      setTickets(res.data.tickets);
+      setError('');
+    } catch (err) {
+      setError(errorMessage(err));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  const isFiltering = search || status;
 
   return (
     <>
-      <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
-        <h3 className="mb-0">My tickets</h3>
+      <div className="flex-between flex-wrap gap-2 mb-3">
+        <h3>My tickets</h3>
         <Link to="/tickets/new" className="btn btn-primary">Raise ticket</Link>
       </div>
 
-      <div className="row g-2 mb-3">
-        <div className="col-md-8">
-          <input className="form-control" placeholder="Search by title or description" value={search} onChange={(e) => setSearch(e.target.value)} />
-        </div>
-        <div className="col-md-4">
-          <select className="form-select" value={status} onChange={(e) => setStatus(e.target.value)}>
-            <option value="">All statuses</option>
-            {STATUSES.map((s) => <option key={s}>{s}</option>)}
-          </select>
-        </div>
+      <div className="grid mb-3" style={{ gridTemplateColumns: '2fr 1fr' }}>
+        <input
+          className="input"
+          placeholder="Search by title or description"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <select className="select" value={status} onChange={(e) => setStatus(e.target.value)}>
+          <option value="">All statuses</option>
+          {STATUSES.map((s) => <option key={s}>{s}</option>)}
+        </select>
       </div>
 
       {error && <div className="alert alert-danger">{error}</div>}
-      {loading ? (
-        <div className="text-center py-5"><div className="spinner-border text-secondary" /></div>
+
+      {busy ? (
+        <div className="spinner-wrap"><div className="spinner" /></div>
       ) : tickets.length === 0 ? (
-        <div className="panel p-5 text-center">
-          {filtering ? (
+        <div className="panel empty-state">
+          {isFiltering ? (
             <p className="mb-0">No tickets match your search. Try a different word or status.</p>
           ) : (
             <>
               <p>You have not raised any tickets yet.</p>
-              <div><Link to="/tickets/new" className="btn btn-primary">Raise your first ticket</Link></div>
+              <Link to="/tickets/new" className="btn btn-primary">Raise your first ticket</Link>
             </>
           )}
         </div>
       ) : (
-        <div className="d-grid gap-2">
-          {tickets.map((t) => (
-            <div key={t._id} className={`panel ticket-card t-${t.status.replace(' ', '-')} p-3`} onClick={() => setSelected(t)}>
-              <div className="d-flex flex-wrap justify-content-between align-items-start gap-2">
+        <div className="stack">
+          {tickets.map((ticket) => (
+            <div
+              key={ticket._id}
+              className={'panel ticket-card t-' + ticket.status.replace(' ', '-')}
+              onClick={() => setSelectedTicket(ticket)}
+            >
+              <div className="flex-between flex-wrap gap-2">
                 <div>
-                  <span className="id-tag small me-2">#{shortId(t)}</span>
-                  <strong>{t.title}</strong>
+                  <span className="id-tag small" style={{ marginRight: 8 }}>#{shortId(ticket)}</span>
+                  <strong>{ticket.title}</strong>
                 </div>
-                <StatusBadge status={t.status} />
+                <StatusBadge status={ticket.status} />
               </div>
-              <div className="text-secondary small mt-1 text-truncate">{t.description}</div>
-              <div className="small mt-2 d-flex flex-wrap gap-3 text-secondary">
-                <span>{t.category}</span>
-                <span>Priority: <PriorityText priority={t.priority} /></span>
-                <span>Raised {fmtDate(t.createdAt)}</span>
+              <div className="text-muted small mt-1 truncate">{ticket.description}</div>
+              <div className="small mt-2 flex flex-wrap gap-3 text-muted">
+                <span>{ticket.category}</span>
+                <span>Priority: <PriorityText priority={ticket.priority} /></span>
+                <span>Raised {fmtDate(ticket.createdAt)}</span>
               </div>
             </div>
           ))}
         </div>
       )}
 
-      <TicketModal ticket={selected} onClose={() => setSelected(null)} />
+      <TicketModal ticket={selectedTicket} onClose={() => setSelectedTicket(null)} />
     </>
   );
 }
