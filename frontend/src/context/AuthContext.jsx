@@ -1,102 +1,54 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState
-} from 'react';
-
+import { createContext, useContext, useEffect, useState } from 'react';
 import api from '../api';
 
+// This context stores the logged-in user and the functions to
+// log in, register and log out. Any component can read it with useAuth().
 const AuthContext = createContext(null);
 
-export const useAuth = () => {
+export function useAuth() {
   return useContext(AuthContext);
-};
+}
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-
   const [loading, setLoading] = useState(true);
 
+  // On first load, if we have a saved token, ask the backend who we are.
   useEffect(() => {
     const token = localStorage.getItem('token');
-
     if (!token) {
       setLoading(false);
       return;
     }
-
     api
       .get('/auth/me')
-      .then((response) => {
-        const user = response.data.user;
-
-        setUser(user);
-      })
-      .catch((error) => {
-        localStorage.removeItem('token');
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-
+      .then((res) => setUser(res.data.user))
+      .catch(() => localStorage.removeItem('token'))
+      .finally(() => setLoading(false));
   }, []);
 
- const saveSession = ({ token, user }) => {
-    localStorage.setItem('token', token);
+  function saveSession(data) {
+    localStorage.setItem('token', data.token);
+    setUser(data.user);
+    return data.user;
+  }
 
-    setUser(user);
+  async function login(email, password) {
+    const res = await api.post('/auth/login', { email, password });
+    return saveSession(res.data);
+  }
 
-    return user;
-  };
+  async function register(form) {
+    const res = await api.post('/auth/register', form);
+    return saveSession(res.data);
+  }
 
-  const login = async (email, password) => {
-    const response = await api.post(
-      '/auth/login',
-      {
-        email: email,
-        password: password
-      }
-    );
-
-    const data = response.data;
-
-    const user = saveSession(data);
-
-    return user;
-  };
-
-  const register = async (form) => {
-    const response = await api.post(
-      '/auth/register',
-      form
-    );
-
-    const data = response.data;
-
-    const user = saveSession(data);
-
-    return user;
-  };
-
-  const logout = () => {
+  function logout() {
     localStorage.removeItem('token');
-
     setUser(null);
-  };
+  }
 
-  return (
-    <AuthContext.Provider
-      value={{
-        user: user,
-        setUser: setUser,
-        loading: loading,
-        login: login,
-        register: register,
-        logout: logout
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+  const value = { user, setUser, loading, login, register, logout };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
