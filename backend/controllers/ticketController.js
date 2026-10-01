@@ -118,3 +118,20 @@ We received your ticket "${ticket.title}" (priority: ${ticket.priority}). The IT
   }
 };
 
+// Get logged-in user's tickets
+const getMyTickets = async (req, res, next) => {
+  try {
+    const filter = await buildFilter(req, {
+      mine: true
+    });
+
+    const tickets = await Ticket.find(filter)
+      .sort('-createdAt');
+
+    res.json({ tickets });
+
+  } catch (err) {
+    next(err);
+  }
+};
+
