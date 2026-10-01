@@ -6,45 +6,72 @@ import { errorMessage } from '../api';
 export default function Login() {
   const { user, login } = useAuth();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ email: '', password: '' });
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
 
+  // Already logged in? Skip this page.
   if (user) return <Navigate to="/" replace />;
 
-  const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-
-  const onSubmit = async (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
     setError('');
     setBusy(true);
     try {
-      const u = await login(form.email, form.password);
-      navigate(u.role === 'admin' ? '/admin' : '/tickets');
+      const loggedInUser = await login(email, password);
+      if (loggedInUser.role === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate('/tickets');
+      }
     } catch (err) {
       setError(errorMessage(err));
     } finally {
       setBusy(false);
     }
-  };
+  }
 
   return (
-    <div className="auth-wrap panel p-4">
+    <div className="auth-wrap panel">
       <h3 className="mb-1">Log in</h3>
-      <p className="text-secondary">Use your Nettech account to raise or manage tickets.</p>
-      {error && <div className="alert alert-danger py-2">{error}</div>}
-      <form onSubmit={onSubmit}>
-        <div className="mb-3">
-          <label className="form-label">Email</label>
-          <input type="email" name="email" className="form-control" value={form.email} onChange={onChange} required autoFocus />
+      <p className="text-muted">Use your Nettech account to raise or manage tickets.</p>
+
+      {error && <div className="alert alert-danger">{error}</div>}
+
+      <form onSubmit={handleSubmit}>
+        <div className="field">
+          <label>Email</label>
+          <input
+            type="email"
+            className="input"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            autoFocus
+          />
         </div>
-        <div className="mb-3">
-          <label className="form-label">Password</label>
-          <input type="password" name="password" className="form-control" value={form.password} onChange={onChange} required />
+
+        <div className="field">
+          <label>Password</label>
+          <input
+            type="password"
+            className="input"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
         </div>
-        <button className="btn btn-primary w-100" disabled={busy}>{busy ? 'Logging in...' : 'Log in'}</button>
+
+        <button className="btn btn-primary btn-block" disabled={busy}>
+          {busy ? 'Logging in...' : 'Log in'}
+        </button>
       </form>
-      <p className="mt-3 mb-0 small">New employee? <Link to="/register">Create an account</Link></p>
+
+      <p className="mt-3 mb-0 small">
+        New employee? <Link to="/register">Create an account</Link>
+      </p>
     </div>
   );
 }
