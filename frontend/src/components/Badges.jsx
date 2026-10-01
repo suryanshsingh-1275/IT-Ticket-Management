@@ -1,7 +1,9 @@
 export function StatusBadge({ status }) {
-  return <span className={`pill st-${status.replace(' ', '-')}`}>{status}</span>;
+  const className = 'pill st-' + status.replace(' ', '-');
+  return <span className={className}>{status}</span>;
 }
 
 export function PriorityText({ priority }) {
-  return <span className={`pr-text-${priority}`}>{priority}</span>;
+  const className = 'pr-text-' + priority;
+  return <span className={className}>{priority}</span>;
 }
