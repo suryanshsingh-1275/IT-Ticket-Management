@@ -55,3 +55,48 @@ const register = async (req, res, next) => {
     next(err);
   }
 };
+
+
+const login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({
+        message: 'Email and password are required'
+      });
+    }
+
+    const user = await User.findOne({
+      email: email.toLowerCase()
+    }).select('+password');
+
+    if (!user) {
+      return res.status(401).json({
+        message: 'Incorrect email or password'
+      });
+    }
+
+    const isMatch = await bcrypt.compare(
+      password,
+      user.password
+    );
+
+    if (!isMatch) {
+      return res.status(401).json({
+        message: 'Incorrect email or password'
+      });
+    }
+
+    const token = signToken(user._id);
+
+    res.json({
+      token,
+      user
+    });
+
+  } catch (err) {
+    next(err);
+  }
+};
+
