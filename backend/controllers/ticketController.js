@@ -135,3 +135,73 @@ const getMyTickets = async (req, res, next) => {
   }
 };
 
+// Admin dashboard statistics
+const getStats = async (req, res, next) => {
+  try {
+    const [
+      byStatus,
+      byPriority,
+      total,
+      users,
+      recent
+    ] = await Promise.all([
+      Ticket.aggregate([
+        {
+          $group: {
+            _id: '$status',
+            count: { $sum: 1 }
+          }
+        }
+      ]),
+
+      Ticket.aggregate([
+        {
+          $group: {
+            _id: '$priority',
+            count: { $sum: 1 }
+          }
+        }
+      ]),
+
+      Ticket.countDocuments(),
+
+      User.countDocuments({
+        role: 'user'
+      }),
+
+      Ticket.find()
+        .sort('-createdAt')
+        .limit(5)
+        .populate(
+          'createdBy',
+          'name email'
+        )
+    ]);
+
+    const toMap = (keys, rows) => {
+      return keys.reduce(
+        (acc, key) => ({
+          ...acc,
+          [key]:
+            rows.find(
+              (row) => row._id === key
+            )?.count || 0
+        }),
+        {}
+      );
+    };
+
+    res.json({
+      total,
+      users,
+      byStatus: toMap(STATUSES, byStatus),
+      byPriority: toMap(PRIORITIES, byPriority),
+      recent
+    });
+
+  } catch (err) {
+    next(err);
+  }
+};
+
+
