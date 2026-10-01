@@ -1,99 +1,43 @@
 import { StatusBadge, PriorityText } from './Badges';
 import { shortId, fmtDate } from '../constants';
 
+// Popup box that shows full ticket details.
+// Pass ticket={null} to keep it hidden.
 export default function TicketModal({ ticket, onClose }) {
-  if (!ticket) {
-    return null;
-  }
+  if (!ticket) return null;
 
   return (
-    <div
-      className="modal d-block"
-      style={{ background: 'rgba(23,36,47,.55)' }}
-      onClick={onClose}
-    >
-      <div
-        className="modal-dialog modal-dialog-centered"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="modal-content">
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-box" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-header">
+          <div>
+            <div className="id-tag small">Ticket #{shortId(ticket)}</div>
+            <h5>{ticket.title}</h5>
+          </div>
+          <button className="modal-close" onClick={onClose}>&times;</button>
+        </div>
 
-          <div className="modal-header">
-            <div>
-              <div className="id-tag small">
-                Ticket #{shortId(ticket)}
-              </div>
-
-              <h5 className="modal-title">
-                {ticket.title}
-              </h5>
-            </div>
-
-            <button
-              type="button"
-              className="btn-close"
-              aria-label="Close"
-              onClick={onClose}
-            />
+        <div className="modal-body">
+          <div className="flex flex-wrap gap-3 mb-3 small">
+            <StatusBadge status={ticket.status} />
+            <span>Priority: <PriorityText priority={ticket.priority} /></span>
+            <span>Category: {ticket.category}</span>
           </div>
 
-          <div className="modal-body">
+          <p className="pre-wrap">{ticket.description}</p>
 
-            <div className="d-flex flex-wrap gap-3 mb-3 small">
+          <hr style={{ border: 'none', borderTop: '1px solid var(--line)', margin: '16px 0' }} />
 
-              <StatusBadge
-                status={ticket.status}
-              />
-
-              <span>
-                Priority:{' '}
-                <PriorityText
-                  priority={ticket.priority}
-                />
-              </span>
-
-              <span>
-                Category: {ticket.category}
-              </span>
-
-            </div>
-
-            <p className="pre-wrap">
-              {ticket.description}
-            </p>
-
-            <hr />
-
-            <div className="small text-secondary">
-
-              {ticket.createdBy?.name && (
-                <div>
-                  Raised by {ticket.createdBy.name} (
-                  {ticket.createdBy.email}
-                  )
-                </div>
-              )}
-
-              <div>
-                Created {fmtDate(ticket.createdAt)} · Last updated{' '}
-                {fmtDate(ticket.updatedAt)}
-              </div>
-
-            </div>
-
+          <div className="small text-muted">
+            {ticket.createdBy && ticket.createdBy.name && (
+              <div>Raised by {ticket.createdBy.name} ({ticket.createdBy.email})</div>
+            )}
+            <div>Created {fmtDate(ticket.createdAt)} · Last updated {fmtDate(ticket.updatedAt)}</div>
           </div>
+        </div>
 
-          <div className="modal-footer">
-
-            <button
-              className="btn btn-outline-primary"
-              onClick={onClose}
-            >
-              Close
-            </button>
-
-          </div>
-
+        <div className="modal-footer">
+          <button className="btn btn-outline-brand" onClick={onClose}>Close</button>
         </div>
       </div>
     </div>
