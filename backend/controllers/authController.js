@@ -100,3 +100,14 @@ const login = async (req, res, next) => {
   }
 };
 
+const getMe = (req, res) => {
+  res.json({
+    user: req.user
+  });
+};
+
+module.exports = {
+  register,
+  login,
+  getMe
+};
