@@ -73,3 +73,48 @@ const buildFilter = async (req, { mine }) => {
   return filter;
 };
 
+// Create a ticket
+const createTicket = async (req, res, next) => {
+  try {
+    const {
+      title,
+      description,
+      category,
+      priority
+    } = req.body;
+
+    if (!title || !description) {
+      return res.status(400).json({
+        message: 'Title and description are required'
+      });
+    }
+
+    const ticket = await Ticket.create({
+      title,
+      description,
+      category: CATEGORIES.includes(category)
+        ? category
+        : 'Other',
+      priority: PRIORITIES.includes(priority)
+        ? priority
+        : 'Medium',
+      createdBy: req.user._id
+    });
+
+    sendEmail({
+      to: req.user.email,
+      subject: `Ticket #${shortId(ticket)} received: ${ticket.title}`,
+      text: `Hi ${req.user.name},
+
+We received your ticket "${ticket.title}" (priority: ${ticket.priority}). The IT team will update you as it progresses.
+
+- Nettech Help Desk`
+    });
+
+    res.status(201).json({ ticket });
+
+  } catch (err) {
+    next(err);
+  }
+};
+
