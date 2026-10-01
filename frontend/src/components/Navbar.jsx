@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Avatar from './Avatar';
@@ -5,47 +6,49 @@ import Avatar from './Avatar';
 export default function Navbar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  const handleLogout = () => {
+  function handleLogout() {
     logout();
     navigate('/login');
-  };
+  }
 
-  eturn (
-    <nav className="navbar navbar-expand-md app-nav navbar-dark">
+  function linkClass({ isActive }) {
+    return isActive ? 'nav-link active' : 'nav-link';
+  }
+
+  return (
+    <nav className="app-nav" style={{ position: 'relative' }}>
       <div className="container">
-        <Link to="/" className="brand navbar-brand">Nettech Help Desk</Link>
+        <Link to="/" className="brand">Nettech Help Desk</Link>
+
         {user && (
           <>
-            <button
-              className="navbar-toggler"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#mainNav"
-              aria-label="Toggle navigation"
-            >
-              <span className="navbar-toggler-icon" />
+            <button className="nav-toggle" onClick={() => setMenuOpen(!menuOpen)}>
+              &#9776;
             </button>
-            <div className="collapse navbar-collapse" id="mainNav">
-              <ul className="navbar-nav me-auto">
+
+            <div className={menuOpen ? 'nav-collapse open' : 'nav-collapse'}>
+              <div className="nav-links">
                 {user.role === 'admin' ? (
                   <>
-                    <li className="nav-item"><NavLink end to="/admin" className="nav-link">Dashboard</NavLink></li>
-                    <li className="nav-item"><NavLink to="/admin/tickets" className="nav-link">All tickets</NavLink></li>
+                    <NavLink end to="/admin" className={linkClass} onClick={() => setMenuOpen(false)}>Dashboard</NavLink>
+                    <NavLink to="/admin/tickets" className={linkClass} onClick={() => setMenuOpen(false)}>All tickets</NavLink>
                   </>
                 ) : (
                   <>
-                    <li className="nav-item"><NavLink end to="/tickets" className="nav-link">My tickets</NavLink></li>
-                    <li className="nav-item"><NavLink to="/tickets/new" className="nav-link">Raise ticket</NavLink></li>
+                    <NavLink end to="/tickets" className={linkClass} onClick={() => setMenuOpen(false)}>My tickets</NavLink>
+                    <NavLink to="/tickets/new" className={linkClass} onClick={() => setMenuOpen(false)}>Raise ticket</NavLink>
                   </>
                 )}
-              </ul>
-              <div className="d-flex align-items-center gap-3">
-                <Link to="/profile" className="d-flex align-items-center gap-2 text-decoration-none text-white">
+              </div>
+
+              <div className="nav-right">
+                <Link to="/profile" className="nav-user" onClick={() => setMenuOpen(false)}>
                   <Avatar user={user} size={30} />
                   <span>{user.name}</span>
                 </Link>
-                <button className="btn btn-sm btn-outline-light" onClick={handleLogout}>Log out</button>
+                <button className="btn btn-sm btn-ghost-light" onClick={handleLogout}>Log out</button>
               </div>
             </div>
           </>
