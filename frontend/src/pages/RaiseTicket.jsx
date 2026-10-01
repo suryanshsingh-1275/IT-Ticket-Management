@@ -5,58 +5,82 @@ import { CATEGORIES, PRIORITIES } from '../constants';
 
 export default function RaiseTicket() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ title: '', description: '', category: 'Hardware', priority: 'Medium' });
+
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [category, setCategory] = useState('Hardware');
+  const [priority, setPriority] = useState('Medium');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
 
-  const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-
-   const onSubmit = async (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
     setError('');
     setBusy(true);
     try {
-      await api.post('/tickets', form);
+      await api.post('/tickets', { title, description, category, priority });
       navigate('/tickets');
     } catch (err) {
       setError(errorMessage(err));
       setBusy(false);
     }
-  };
+  }
 
-
-
-return (
-    <div className="mx-auto" style={{ maxWidth: 640 }}>
+  return (
+    <div className="center-mx" style={{ maxWidth: 640 }}>
       <h3 className="mb-1">Raise a ticket</h3>
-      <p className="text-secondary">Describe the problem and the IT team will pick it up.</p>
-      <form className="panel p-4" onSubmit={onSubmit}>
-        {error && <div className="alert alert-danger py-2">{error}</div>}
-        <div className="mb-3">
-          <label className="form-label">Title</label>
-          <input name="title" className="form-control" maxLength={120} placeholder="e.g. Wi-Fi not working on 2nd floor" value={form.title} onChange={onChange} required />
+      <p className="text-muted">Describe the problem and the IT team will pick it up.</p>
+
+      <form className="panel" style={{ padding: 24 }} onSubmit={handleSubmit}>
+        {error && <div className="alert alert-danger">{error}</div>}
+
+        <div className="field">
+          <label>Title</label>
+          <input
+            className="input"
+            maxLength={120}
+            placeholder="e.g. Wi-Fi not working on 2nd floor"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
         </div>
-        <div className="mb-3">
-          <label className="form-label">What is happening?</label>
-          <textarea name="description" rows={5} maxLength={2000} className="form-control" placeholder="Include what you tried and any error messages." value={form.description} onChange={onChange} required />
+
+        <div className="field">
+          <label>What is happening?</label>
+          <textarea
+            rows={5}
+            maxLength={2000}
+            className="textarea"
+            placeholder="Include what you tried and any error messages."
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            required
+          />
         </div>
-        <div className="row">
-          <div className="col-sm-6 mb-3">
-            <label className="form-label">Category</label>
-            <select name="category" className="form-select" value={form.category} onChange={onChange}>
+
+        <div className="form-row">
+          <div className="field">
+            <label>Category</label>
+            <select className="select" value={category} onChange={(e) => setCategory(e.target.value)}>
               {CATEGORIES.map((c) => <option key={c}>{c}</option>)}
             </select>
           </div>
-          <div className="col-sm-6 mb-3">
-            <label className="form-label">Priority</label>
-            <select name="priority" className="form-select" value={form.priority} onChange={onChange}>
+          <div className="field">
+            <label>Priority</label>
+            <select className="select" value={priority} onChange={(e) => setPriority(e.target.value)}>
               {PRIORITIES.map((p) => <option key={p}>{p}</option>)}
             </select>
           </div>
         </div>
-        <div className="d-flex gap-2">
-          <button className="btn btn-primary" disabled={busy}>{busy ? 'Submitting...' : 'Submit ticket'}</button>
-          <button type="button" className="btn btn-outline-secondary" onClick={() => navigate('/tickets')}>Cancel</button>
+
+        <div className="flex gap-2">
+          <button className="btn btn-primary" disabled={busy}>
+            {busy ? 'Submitting...' : 'Submit ticket'}
+          </button>
+          <button type="button" className="btn btn-outline" onClick={() => navigate('/tickets')}>
+            Cancel
+          </button>
         </div>
       </form>
     </div>
