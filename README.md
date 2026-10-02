@@ -127,3 +127,41 @@ SMTP credentials are not configured in the deployed version, so email sending is
 
 - Render
 
+## Architecture
+
+The project follows a client-server architecture.
+
+```text
+React Frontend
+      |
+      | Axios / REST API
+      v
+Node.js + Express Backend
+      |
+      | Mongoose
+      v
+MongoDB Atlas
+```
+
+## Application Flow
+
+```text
+User
+ |
+ v
+React Frontend
+ |
+ | HTTP Requests
+ v
+Express REST API
+ |
+ v
+Authentication / Controllers
+ |
+ v
+Mongoose
+ |
+ v
+MongoDB Atlas
+```
+
