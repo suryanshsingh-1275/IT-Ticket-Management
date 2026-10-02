@@ -228,3 +228,42 @@ Main collections include:
 - Users
 - Tickets
 
+### User Data
+
+User records contain information such as:
+
+- Name
+- Email
+- Password
+- Role
+- Department
+- Phone
+- Avatar
+
+### Ticket Data
+
+Ticket records contain information such as:
+
+- Title
+- Description
+- Category
+- Priority
+- Status
+- Created By
+- Created At
+- Updated At
+
+## Authentication & Security
+
+The application uses:
+
+- JWT authentication
+- Password hashing with bcrypt
+- Protected API routes
+- Role-based authorization
+- Admin-only routes
+- Environment variables for sensitive configuration
+- HTTP authorization headers
+
+Passwords are never stored as plain text.
+
