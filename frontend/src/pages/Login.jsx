@@ -35,8 +35,8 @@ export default function Login() {
 
   return (
     <div className="auth-wrap panel">
-      <h3 className="mb-1">Log in</h3>
-      <p className="text-muted">Use your Nettech account to raise or manage tickets.</p>
+      <h3 className="mb-1 text-center">Log in</h3>
+      <p className="text-muted text-center">Use your Nettech account to raise or manage tickets.</p>
 
       {error && <div className="alert alert-danger">{error}</div>}
 
