@@ -68,3 +68,14 @@ Tickets can be searched and filtered based on relevant ticket information such a
 - Ticket priority
 - Ticket category
 
+## Responsive Design
+
+The application is designed to work across different screen sizes, including:
+
+- Desktop
+- Laptop
+- Tablet
+- Mobile
+
+The interface uses responsive layouts and CSS to provide a consistent experience across devices.
+
