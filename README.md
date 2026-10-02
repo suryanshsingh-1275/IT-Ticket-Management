@@ -49,3 +49,13 @@ The application implements CRUD functionality for ticket management:
 - **Update** — Administrators can update ticket status.
 - **Delete** — Administrators can delete tickets.
 
+## Dashboard
+
+The admin dashboard provides an overview of the ticket system, including:
+
+- Total tickets
+- Open tickets
+- In-progress tickets
+- Resolved tickets
+- Ticket statistics
+
