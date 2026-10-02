@@ -1,28 +1,13 @@
-
-const express = require('express');
-
-const {
-  updateProfile,
-  updatePassword
-} = require('../controllers/profileController');
-
-const { protect } = require('../middleware/auth');
-const upload = require('../middleware/upload');
+import express from 'express';
+import { updateProfile, updatePassword } from '../controllers/profileController.js';
+import { protect } from '../middleware/auth.js';
+import upload from '../middleware/upload.js';
 
 const router = express.Router();
 
 router.use(protect);
 
-router.put(
-  '/profile',
-  upload.single('avatar'),
-  updateProfile
-);
+router.put('/profile', upload.single('avatar'), updateProfile);
+router.put('/password', updatePassword);
 
-router.put(
-  '/password',
-  updatePassword
-);
-
-module.exports = router;
-
+export default router;
