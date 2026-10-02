@@ -1,6 +1,7 @@
-const nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
 
 let transporter = null;
+
 if (process.env.SMTP_HOST) {
   transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
@@ -10,14 +11,15 @@ if (process.env.SMTP_HOST) {
 }
 
 // Never throws: a failed email must not break the API request.
-module.exports = async function sendEmail({ to, subject, text }) {
+export default async function sendEmail({ to, subject, text }) {
   if (!transporter) {
     console.log(`[email skipped - SMTP not configured] to=${to} | ${subject}\n${text}`);
     return;
   }
+
   try {
     await transporter.sendMail({ from: process.env.MAIL_FROM, to, subject, text });
   } catch (err) {
     console.error('Email failed:', err.message);
   }
-};
+}
