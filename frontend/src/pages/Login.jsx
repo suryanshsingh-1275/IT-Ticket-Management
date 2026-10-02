@@ -69,9 +69,9 @@ export default function Login() {
         </button>
       </form>
 
-      <p className="mt-3 mb-0 small">
+      <p className="mt-3 mb-0 small text-center">
         New employee? <Link to="/register">Create an account</Link>
       </p>
     </div>
   );
-}
+}zxsx
