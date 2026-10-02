@@ -165,3 +165,33 @@ Mongoose
 MongoDB Atlas
 ```
 
+## REST API Endpoints
+
+### Authentication
+
+```text
+POST /api/auth/register
+POST /api/auth/login
+GET  /api/auth/me
+```
+
+### User Profile
+
+```text
+GET   /api/users/profile
+PATCH /api/users/profile
+PATCH /api/users/password
+```
+
+### Tickets
+
+```text
+POST   /api/tickets
+GET    /api/tickets/mine
+GET    /api/tickets
+GET    /api/tickets/stats
+GET    /api/tickets/:id
+PATCH  /api/tickets/:id/status
+DELETE /api/tickets/:id
+```
+
