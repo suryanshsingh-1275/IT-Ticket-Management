@@ -4,7 +4,7 @@ export default function Avatar({ user, size = 32 }) {
   if (user && user.avatar) {
     return (
       <img
-        src={`http://localhost:5000${user.avatar}`}
+        src={`http://localhost:5055${user.avatar}`}
         alt=""
         className="avatar"
         style={style}
