@@ -267,3 +267,59 @@ The application uses:
 
 Passwords are never stored as plain text.
 
+## Running Locally
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/suryanshsingh-1275/IT-Ticket-Management.git
+cd IT-Ticket-Management
+```
+
+### 2. Install Backend Dependencies
+
+```bash
+cd backend
+npm install
+```
+
+### 3. Configure Environment Variables
+
+Create a `.env` file inside the `backend` folder:
+
+```env
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+PORT=5055
+CLIENT_URL=http://localhost:5173
+```
+
+### 4. Seed the Database
+
+```bash
+npm run seed
+```
+
+### 5. Start the Backend
+
+```bash
+npm run dev
+```
+
+### 6. Install Frontend Dependencies
+
+Open another terminal:
+
+```bash
+cd frontend
+npm install
+```
+
+### 7. Start the Frontend
+
+```bash
+npm run dev
+```
+
+The frontend will run using Vite and communicate with the Express REST API.
+
