@@ -95,3 +95,35 @@ Nodemailer is implemented and configured to support SMTP-based email notificatio
 
 SMTP credentials are not configured in the deployed version, so email sending is currently not enabled in production.
 
+## Technology Stack
+
+### Frontend
+
+- React
+- JavaScript
+- JSX
+- CSS
+- Vite
+- Axios
+- React Router
+
+### Backend
+
+- Node.js
+- Express.js
+- REST APIs
+- JWT
+- bcrypt
+- Multer
+- Nodemailer
+
+### Database
+
+- MongoDB
+- Mongoose
+- MongoDB Atlas
+
+### Deployment
+
+- Render
+
