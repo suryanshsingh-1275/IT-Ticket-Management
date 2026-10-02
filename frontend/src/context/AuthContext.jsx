@@ -13,7 +13,7 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // On first load, if we have a saved token, ask the backend who we are.
+  
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
