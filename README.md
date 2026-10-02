@@ -59,3 +59,12 @@ The admin dashboard provides an overview of the ticket system, including:
 - Resolved tickets
 - Ticket statistics
 
+## Search & Filtering
+
+Tickets can be searched and filtered based on relevant ticket information such as:
+
+- Ticket title
+- Ticket status
+- Ticket priority
+- Ticket category
+
