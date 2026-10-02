@@ -1,3 +1,4 @@
+
 export default function Avatar({ user, size = 32 }) {
   const style = {
     width: size,
@@ -29,3 +30,4 @@ export default function Avatar({ user, size = 32 }) {
     </span>
   );
 }
+
