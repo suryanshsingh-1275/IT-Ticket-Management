@@ -27,3 +27,16 @@ Nettech Help Desk is a full-stack IT Ticket Management System designed to help e
 - Delete tickets
 - Monitor ticket priorities and categories
 
+## Ticket Management
+
+The system supports complete ticket management with the following operations:
+
+- Create tickets
+- Read ticket details
+- Update ticket status
+- Delete tickets
+- Track ticket priority
+- Track ticket category
+- Track ticket creation date
+- Associate tickets with users
+
