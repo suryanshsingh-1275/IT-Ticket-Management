@@ -79,3 +79,19 @@ The application is designed to work across different screen sizes, including:
 
 The interface uses responsive layouts and CSS to provide a consistent experience across devices.
 
+## Bonus Features
+
+### Ticket Priority
+
+Tickets support different priority levels to help administrators identify important support requests.
+
+### Profile Picture Upload
+
+Users can upload and update their profile picture using the profile management system.
+
+### Email Notifications
+
+Nodemailer is implemented and configured to support SMTP-based email notifications for ticket-related events.
+
+SMTP credentials are not configured in the deployed version, so email sending is currently not enabled in production.
+
