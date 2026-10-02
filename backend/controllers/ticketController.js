@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import Ticket from '../models/Ticket.js';
 import User from '../models/User.js';
-import sendEmail from '../utils/sendEmail.js';
+import sendEmail from '../utils/sendEmails.js';
 import { CATEGORIES, PRIORITIES, STATUSES } from '../constants.js';
 
 const escapeRegex = (s) => {
