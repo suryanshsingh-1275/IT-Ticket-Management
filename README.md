@@ -194,4 +194,37 @@ GET    /api/tickets/:id
 PATCH  /api/tickets/:id/status
 DELETE /api/tickets/:id
 ```
+## Project Structure
+
+```text
+IT_Help_Desk_Ticket_Management/
+│
+├── backend/
+│   ├── config/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── seed/
+│   ├── uploads/
+│   ├── utils/
+│   ├── .env
+│   ├── package.json
+│   └── server.js
+│
+└── frontend/
+    ├── public/
+    ├── src/
+    ├── package.json
+    └── vite.config.ts
+```
+
+## Database
+
+MongoDB Atlas is used as the cloud database.
+
+Main collections include:
+
+- Users
+- Tickets
 
