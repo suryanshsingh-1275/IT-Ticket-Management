@@ -1,5 +1,3 @@
-module.exports = {
-  CATEGORIES: ['Hardware', 'Software', 'Network', 'Access', 'Email', 'Other'],
-  PRIORITIES: ['Low', 'Medium', 'High'],
-  STATUSES: ['Open', 'In Progress', 'Resolved', 'Closed'],
-};
+export const CATEGORIES = ['Hardware', 'Software', 'Network', 'Access', 'Email', 'Other'];
+export const PRIORITIES = ['Low', 'Medium', 'High'];
+export const STATUSES = ['Open', 'In Progress', 'Resolved', 'Closed'];
