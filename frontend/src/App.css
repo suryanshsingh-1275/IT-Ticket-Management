@@ -45,8 +45,12 @@ a:hover { text-decoration: underline; }
 .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
 .page { padding: 28px 0 60px; }
 .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
-.auth-wrap { max-width: 420px; margin: 56px auto; padding: 32px; }
-.center-mx { margin-left: auto; margin-right: auto; }
+.auth-wrap {max-width: 420px;margin: 56px auto;padding: 32px;}
+.auth-wrap h1,
+.auth-wrap h2,
+.auth-wrap > p {
+  text-align: center;
+}.center-mx { margin-left: auto; margin-right: auto; }
 
 /* Utility */
 .flex { display: flex; align-items: center; }
