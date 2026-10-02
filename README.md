@@ -323,3 +323,67 @@ npm run dev
 
 The frontend will run using Vite and communicate with the Express REST API.
 
+## Demo Accounts
+
+### Admin
+
+```text
+Email: admin@nettech.com
+Password: Admin@123
+```
+
+### User
+
+
+Email: user@nettech.com
+Password: User@123
+```
+
+## Deployment
+
+The application is deployed as a single Render Web Service.
+
+The Express backend serves the built React frontend in production.
+
+### Production Build
+
+```bash
+cd frontend
+npm install
+npm run build
+cd ../backend
+npm install
+```
+
+### Production Start
+
+```bash
+npm start --prefix backend
+```
+
+## What This Project Demonstrates
+
+This project demonstrates practical experience with:
+
+- React frontend development
+- REST API development
+- Express.js backend development
+- MongoDB database integration
+- Mongoose models
+- JWT authentication
+- Role-based authorization
+- Password hashing
+- CRUD operations
+- File uploads
+- Email notification integration
+- Search and filtering
+- Responsive UI development
+- API integration using Axios
+- Cloud database deployment
+- Full-stack application deployment
+
+## Author
+
+**Suryansh Singh**
+
+GitHub: https://github.com/suryanshsingh-1275/IT-Ticket-Management
