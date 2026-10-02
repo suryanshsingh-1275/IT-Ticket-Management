@@ -78,7 +78,7 @@ export default function Register() {
         </button>
       </form>
 
-      <p className="mt-3 mb-0 small">
+      <p className="mt-3 mb-0 small text-center">
         Already registered? <Link to="/login">Log in</Link>
       </p>
     </div>
