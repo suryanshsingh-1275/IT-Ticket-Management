@@ -16,3 +16,14 @@ Nettech Help Desk is a full-stack IT Ticket Management System designed to help e
 - Upload profile picture
 - Change password
 
+## Admin Module
+
+- Admin authentication
+- Admin dashboard
+- View all tickets
+- View ticket statistics
+- Search and filter tickets
+- Update ticket status
+- Delete tickets
+- Monitor ticket priorities and categories
+
