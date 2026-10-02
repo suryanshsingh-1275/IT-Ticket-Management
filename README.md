@@ -40,3 +40,12 @@ The system supports complete ticket management with the following operations:
 - Track ticket creation date
 - Associate tickets with users
 
+## CRUD Operations
+
+The application implements CRUD functionality for ticket management:
+
+- **Create** — Users can create new support tickets.
+- **Read** — Users and administrators can view ticket information.
+- **Update** — Administrators can update ticket status.
+- **Delete** — Administrators can delete tickets.
+
