@@ -1,7 +1,5 @@
-
-const express = require('express');
-
-const {
+import express from 'express';
+import {
   createTicket,
   getMyTickets,
   getStats,
@@ -9,68 +7,33 @@ const {
   loadTicket,
   getTicket,
   updateStatus,
-  deleteTicket
-} = require('../controllers/ticketController');
-
-const {
-  protect,
-  adminOnly
-} = require('../middleware/auth');
+  deleteTicket,
+} from '../controllers/ticketController.js';
+import { protect, adminOnly } from '../middleware/auth.js';
 
 const router = express.Router();
 
 router.use(protect);
 
-
 // User: create ticket
 router.post('/', createTicket);
-
 
 // User: own tickets
 router.get('/mine', getMyTickets);
 
-
 // Admin: statistics
-router.get(
-  '/stats',
-  adminOnly,
-  getStats
-);
-
+router.get('/stats', adminOnly, getStats);
 
 // Admin: all tickets
-router.get(
-  '/',
-  adminOnly,
-  getAllTickets
-);
-
+router.get('/', adminOnly, getAllTickets);
 
 // Single ticket
-router.get(
-  '/:id',
-  loadTicket,
-  getTicket
-);
-
+router.get('/:id', loadTicket, getTicket);
 
 // Admin: update status
-router.patch(
-  '/:id/status',
-  adminOnly,
-  loadTicket,
-  updateStatus
-);
-
+router.patch('/:id/status', adminOnly, loadTicket, updateStatus);
 
 // Admin: delete ticket
-router.delete(
-  '/:id',
-  adminOnly,
-  loadTicket,
-  deleteTicket
-);
+router.delete('/:id', adminOnly, loadTicket, deleteTicket);
 
-
-module.exports = router;
-
+export default router;
