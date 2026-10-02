@@ -33,8 +33,8 @@ export default function Register() {
 
   return (
     <div className="auth-wrap panel">
-      <h3 className="mb-1">Create account</h3>
-      <p className="text-muted">Register to raise support tickets and track their status.</p>
+      <h3 className="mb-1 text-center">Create account</h3>
+      <p className="text-muted text-center">Register to raise support tickets and track their status.</p>
 
       {error && <div className="alert alert-danger">{error}</div>}
 
