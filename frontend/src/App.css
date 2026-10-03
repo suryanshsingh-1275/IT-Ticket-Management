@@ -412,3 +412,24 @@ a:hover { text-decoration: underline; }
   .flex-between.flex-wrap { row-gap: 10px; }
 }
 
+/* ----- Small phones (<= 420px) ----- */
+@media (max-width: 420px) {
+  .app-nav .brand { font-size: 0.95rem; }
+
+  .btn { padding: 8px 14px; font-size: 0.9rem; }
+  .btn-sm { padding: 4px 10px; font-size: 0.78rem; }
+
+  h3 { font-size: 1.15rem; }
+
+  .tile .num { font-size: 1.5rem; }
+
+  /* Dashboard tiles: 1 per row on very small screens */
+  .grid.cols-fit {
+    grid-template-columns: 1fr;
+  }
+
+  /* Avatar + name in profile picker stack instead of squeezing sideways */
+  .avatar-picker {
+    flex-wrap: wrap;
+  }
+}
