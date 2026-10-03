@@ -44,7 +44,7 @@ export default function MyTickets() {
         <Link to="/tickets/new" className="btn btn-primary">Raise ticket</Link>
       </div>
 
-      <div className="grid mb-3" style={{ gridTemplateColumns: '2fr 1fr' }}>
+      <div className="search-bar mb-3">
         <input
           className="input"
           placeholder="Search by title or description"
