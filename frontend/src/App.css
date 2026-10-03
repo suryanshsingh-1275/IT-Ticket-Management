@@ -325,6 +325,7 @@ a:hover { text-decoration: underline; }
 .avatar-picker { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
 
 
+
 /* ----- Tablets and small laptops (<= 1024px) ----- */
 @media (max-width: 1024px) {
   .container { padding: 0 16px; }
@@ -375,6 +376,7 @@ a:hover { text-decoration: underline; }
   /* Dashboard stat tiles: 2 per row instead of auto-fit squeezing them */
   .grid.cols-fit {
     grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
   }
 }
 
@@ -421,11 +423,22 @@ a:hover { text-decoration: underline; }
 
   h3 { font-size: 1.15rem; }
 
-  .tile .num { font-size: 1.5rem; }
-
-  /* Dashboard tiles: 1 per row on very small screens */
+  /* Dashboard tiles: keep 2 per row, just tighter */
   .grid.cols-fit {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .tile {
+    padding: 10px 12px;
+  }
+
+  .tile .num {
+    font-size: 1.3rem;
+  }
+
+  .tile .small {
+    font-size: 0.75rem;
   }
 
   /* Avatar + name in profile picker stack instead of squeezing sideways */
