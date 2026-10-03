@@ -378,3 +378,37 @@ a:hover { text-decoration: underline; }
   }
 }
 
+/* ----- Phones (<= 600px) ----- */
+@media (max-width: 600px) {
+  .container { padding: 0 14px; }
+
+  .auth-wrap {
+    margin: 32px auto;
+    padding: 24px 20px;
+    max-width: 100%;
+  }
+
+  .filters-bar {
+    grid-template-columns: 1fr;
+  }
+
+  /* Ticket cards: let long titles wrap, tighten padding a bit */
+  .ticket-card { padding: 12px 14px; }
+
+  /* Modal takes up more of the screen on phones */
+  .modal-overlay { padding: 12px; }
+  .modal-box { max-height: 90vh; }
+  .modal-header,
+  .modal-body,
+  .modal-footer {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  /* Stack admin table actions / keep table scrollable instead of squishing */
+  .table th, .table td { padding: 8px 10px; font-size: 0.85rem; }
+
+  /* Buttons that sit side-by-side on desktop stack on phones */
+  .flex-between.flex-wrap { row-gap: 10px; }
+}
+
