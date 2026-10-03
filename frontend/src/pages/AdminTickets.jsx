@@ -62,7 +62,7 @@ export default function AdminTickets() {
     <>
       <h3 className="mb-3">All tickets</h3>
 
-      <div className="grid cols-4 mb-3" style={{ gridTemplateColumns: '2fr 1fr 1fr 1fr' }}>
+      <div className="filters-bar mb-3">
         <input
           className="input"
           placeholder="Search title, description, employee name or email"
