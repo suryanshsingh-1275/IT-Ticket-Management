@@ -335,3 +335,46 @@ a:hover { text-decoration: underline; }
 }
 
 /* ----- Tablets / large phones in landscape (<= 768px) ----- */
+@media (max-width: 768px) {
+  .page { padding: 20px 0 40px; }
+
+  h3 { font-size: 1.3rem; }
+
+  .grid.cols-4,
+  .grid.split-4-8 {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .search-bar {
+    grid-template-columns: 1fr;
+  }
+
+  /* Navbar collapses into a hamburger menu */
+  .nav-toggle { display: inline-flex; }
+
+  .nav-collapse {
+    display: none;
+    position: absolute;
+    top: 58px; left: 0; right: 0;
+    background: var(--ink);
+    padding: 14px 20px 20px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    z-index: 999;
+  }
+  .nav-collapse.open { display: flex; }
+
+  .nav-links { flex-direction: column; align-items: stretch; }
+  .nav-right { justify-content: space-between; }
+
+  /* Dashboard stat tiles: 2 per row instead of auto-fit squeezing them */
+  .grid.cols-fit {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
